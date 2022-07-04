@@ -8,52 +8,50 @@ public class AI
     public void MakeStep(GameDto gameDto)
     {
         Dictionary<string, int> counter;
-
+        DSU dsu = new DSU();
+        CellDto startPos = null;
         foreach (var cell in gameDto.Cells)
         {
-            
+            dsu.make_set(cell);
+            if (cell.Pos.X == 0 && cell.Pos.Y == 0)
+            {
+	            startPos = cell;
+            }
         }
+        
     }
 }
 
 public class DSU
 {
-	private Dictionary<VectorDto, int> depth;
-	private Dictionary<VectorDto, int> parents;
-	private int groups;
-	//private GameDto _gameDto;
-	
-	/*public DSU(GameDto gameDto)
+	private Dictionary<CellDto, int> depth;
+	private Dictionary<CellDto, CellDto> parents;
+
+	public DSU()
 	{
-		_gameDto = gameDto;
-	}*/
-	/*
-	 struct DSUun{
-	ll depth[1000005];
-	int parents[1000005];
-	int groups;
- 
-	void make_set(int x)
+		depth = new Dictionary<CellDto, int>();
+		parents = new Dictionary<CellDto, CellDto>();
+	}
+
+	public void make_set(CellDto x)
 	{
 		depth[x] = 1;
 		parents[x] = x;
-		groups++;
 	}
- 
-	int find_set(int x)
+	
+	public CellDto find_set(CellDto x)
 	{
 		if (x == parents[x])
 			return x;
 		return parents[x] = find_set(parents[x]);
 	}
- 
-	void union_sets(int a, int b)
+	
+	void union_sets(CellDto a, CellDto b)
 	{
-		int root1 = find_set(a);
-		int root2 = find_set(b);
+		CellDto root1 = find_set(a);
+		CellDto root2 = find_set(b);
 		if (root1 == root2)
 			return;
-		groups--;
 		if (depth[root1] >= depth[root2])
 		{
 			parents[root2] = root1;
@@ -65,8 +63,4 @@ public class DSU
 			depth[root2] += depth[root1];
 		}
 	}
-};
-/// DSU_ends
-DSUun dsu;
-	 */
 }

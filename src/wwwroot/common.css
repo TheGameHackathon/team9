@@ -80,6 +80,18 @@
     margin: 20px auto;
 }
 
+.startButton2 {
+    height: 50px;
+    width: 100%;
+    margin: 20px auto;
+}
+
+.startButton3 {
+    height: 50px;
+    width: 100%;
+    margin: 20px auto;
+}
+
 .hidden {
     display: none;
 }

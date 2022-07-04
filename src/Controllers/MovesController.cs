@@ -47,7 +47,8 @@ public class MovesController : Controller
 
         foreach (var nCell in gameDto.Cells)
         {
-            if (Math.Abs(nCell.Pos.X - cell.Pos.X + nCell.Pos.Y - cell.Pos.Y) == 1
+            if ((Math.Abs(nCell.Pos.X - cell.Pos.X) == 1 && Math.Abs(nCell.Pos.Y - cell.Pos.Y) == 0
+                || Math.Abs(nCell.Pos.X - cell.Pos.X) == 0 && Math.Abs(nCell.Pos.Y - cell.Pos.Y) == 1)
                 && nCell.Type == cell.Type)
             {
                 sides.Add(nCell);

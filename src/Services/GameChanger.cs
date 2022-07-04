@@ -20,16 +20,19 @@ public class GameChanger : IGameChanger
         }
         Queue<CellDto> queue = new Queue<CellDto>();
         queue.Enqueue(start);
-
+        used.Add(start);
         while (queue.Count != 0)
         {
             var currentCell = queue.Dequeue();
-            used.Add(currentCell);
+            //used.Add(currentCell);
             var sides = GetSides(currentCell, gameDto);
             foreach (var toE in sides)
             {
                 if (!used.Contains(toE))
+                {
                     queue.Enqueue(toE);
+                    used.Add(toE);
+                }
             }
 
             currentCell.Type = newColor;

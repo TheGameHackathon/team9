@@ -27,11 +27,13 @@ public class AI : IAI
 	            startPos = cell;
             }
         }
-
+        //slow
         var firstComponent = new HashSet<CellDto>(); 
         dsu.GetComponent(gameDto, startPos, firstComponent);
         HashSet<CellDto> used = new HashSet<CellDto>(firstComponent);
-
+        
+        //while
+        
         foreach (var start in firstComponent)
         {
             //var res = dsu.GetComponent(gameDto, start, used);
@@ -61,22 +63,27 @@ public class AI : IAI
 
 public class DSU
 {
+    
     public int GetComponent(GameDto gameDto, CellDto startPos, HashSet<CellDto> used)
         {
             //HashSet<CellDto> used = new HashSet<CellDto>();
             Queue<CellDto> queue = new Queue<CellDto>();
             queue.Enqueue(startPos);
             int elementsCount = 0;
+            used.Add(startPos);
             while (queue.Count != 0)
             {
                 var currentCell = queue.Dequeue();
-                used.Add(currentCell);
+                //used.Add(currentCell);
                 elementsCount++;
                 var sides = GetSides(currentCell, gameDto);
                 foreach (var toE in sides)
                 {
                     if (!used.Contains(toE))
+                    {
                         queue.Enqueue(toE);
+                        used.Add(toE);
+                    }
                 }
             }
 

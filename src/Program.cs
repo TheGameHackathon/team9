@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder();
 builder.Services.AddMvc();
 builder.Services.AddScoped<IGameGenerator, GameGenerator>();
 builder.Services.AddScoped<IGameRepository, GamesRepository>();
+builder.Services.AddScoped<IGameChanger, GameChanger>();
 
 
 var app = builder.Build();

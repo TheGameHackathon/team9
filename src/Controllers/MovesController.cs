@@ -10,11 +10,13 @@ namespace thegame.Controllers;
 [Route("api/games/{gameId}/moves")]
 public class MovesController : Controller
 {
-    private IGameChanger gameChanger;
-
-    public MovesController(IGameChanger gameChanger)
+    private readonly IGameChanger gameChanger;
+    private readonly IGameRepository gameRepository;
+    
+    public MovesController(IGameChanger gameChanger, IGameRepository gameRepository)
     {
         this.gameChanger = gameChanger;
+        this.gameRepository = gameRepository;
     }
 
     [HttpPost]
@@ -25,7 +27,9 @@ public class MovesController : Controller
             game.Cells.First(c => c.Type == "color4").Pos = userInput.ClickedPos;
         return Ok(game);*/
 
-        var game = GamesRepository.FloodFillGameDto();
+        var game = gameRepository.FindById(gameId);
+        if (game == null)
+            return NotFound();
         var newGame = gameChanger.ChangeState(game, userInput);
 
         newGame.Score++;
@@ -33,6 +37,7 @@ public class MovesController : Controller
         var color = newGame.Cells.First().Type;
 
         newGame.IsFinished = newGame.Cells.All(cell => cell.Type == color);
+        gameRepository.Update(newGame);
 
         return Ok(newGame);
     }

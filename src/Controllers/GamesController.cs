@@ -18,7 +18,7 @@ public class GamesController : Controller
     public IActionResult Index()
     {
         var field = generator.Generate(10, 10, 4);
-        repository.SaveGame(field);
-        return Ok(field);
+        var game = repository.Insert(field);
+        return Ok(game);
     }
 }

@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using thegame.Services;
 
 var builder = WebApplication.CreateBuilder();
 
 builder.Services.AddMvc();
+builder.Services.AddScoped<IGameGenerator, GameGenerator>();
+builder.Services.AddScoped<IGameRepository, GamesRepository>();
+
 
 var app = builder.Build();
 

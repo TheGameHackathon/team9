@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using thegame.Models;
 
 namespace thegame.Services;
 
-public class AI
+public class AI : IAI
 {
 
-    /*public GameDto MakeStep(GameDto gameDto, string newColor)
+    public GameDto MakeStep(GameDto gameDto, IGameChanger gameChanger)
     {
         string chooseColor = PreProcess(gameDto);
-        return;
-    }*/
+        return gameChanger.ChangeState(gameDto, null, chooseColor);
+    }
 
     private string PreProcess(GameDto gameDto)
     {
@@ -33,7 +34,14 @@ public class AI
 
         foreach (var start in firstComponent)
         {
-            counter[start.Type] += dsu.GetComponent(gameDto, start, used);
+            //var res = dsu.GetComponent(gameDto, start, used);
+            var side = dsu.GetSides(start, gameDto, true);
+            foreach (var item in side)
+            {
+                var res = dsu.GetComponent(gameDto, item, used);
+                if (!counter.Keys.Contains(item.Type)) counter[item.Type] = res;
+                else counter[item.Type] += res;
+            }
         }
 
         int maxVal = -1;
@@ -75,7 +83,7 @@ public class DSU
             return elementsCount - 1;
         }
         
-        public List<CellDto> GetSides(CellDto cell, GameDto gameDto)
+        public List<CellDto> GetSides(CellDto cell, GameDto gameDto, bool ignoreColor = false)
         {
             List<CellDto> sides = new List<CellDto>();
     
@@ -83,9 +91,13 @@ public class DSU
             {
                 if ((Math.Abs(nCell.Pos.X - cell.Pos.X) == 1 && Math.Abs(nCell.Pos.Y - cell.Pos.Y) == 0
                      || Math.Abs(nCell.Pos.X - cell.Pos.X) == 0 && Math.Abs(nCell.Pos.Y - cell.Pos.Y) == 1)
-                    && nCell.Type == cell.Type)
+                    )
                 {
-                    sides.Add(nCell);
+                    //(nCell.Type == cell.Type || ignoreColor &&)
+                    if (ignoreColor && nCell.Type != cell.Type)
+                        sides.Add(nCell);
+                    else if (!ignoreColor && nCell.Type == cell.Type)
+                        sides.Add(nCell);
                 }
             }
             return sides;

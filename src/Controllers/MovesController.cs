@@ -12,11 +12,13 @@ public class MovesController : Controller
 {
     private readonly IGameChanger gameChanger;
     private readonly IGameRepository gameRepository;
-    
-    public MovesController(IGameChanger gameChanger, IGameRepository gameRepository)
+    private readonly IAI ai;
+
+    public MovesController(IGameChanger gameChanger, IGameRepository gameRepository, IAI ai)
     {
         this.gameChanger = gameChanger;
         this.gameRepository = gameRepository;
+        this.ai = ai;
     }
 
     [HttpPost]
@@ -27,11 +29,18 @@ public class MovesController : Controller
             game.Cells.First(c => c.Type == "color4").Pos = userInput.ClickedPos;
         return Ok(game);*/
         var game = gameRepository.FindById(gameId);
+        
         if (game == null)
             return NotFound();
-        if (userInput == null) 
+        if (userInput == null) //73
             return Ok(game);
-        var newGame = gameChanger.ChangeState(game, userInput);
+
+        GameDto newGame;
+        
+        if (userInput.keyPressed == 73)
+            newGame = ai.MakeStep(game, gameChanger);
+        else
+            newGame = gameChanger.ChangeState(game, userInput);
 
         newGame.Score++;
 

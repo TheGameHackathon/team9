@@ -53,14 +53,18 @@ public class GameChanger : IGameChanger
 
         return sides;
     }
-    public GameDto ChangeState(GameDto oldState, UserInputDto userInput)
+    public GameDto ChangeState(GameDto oldState, UserInputDto userInput, string newColor = null)
     {
-        string newColor = null;
-        foreach (var cell in oldState.Cells)
+        //string newColor = null;
+        if (newColor == null)
         {
-            if (cell.Pos.X == userInput.ClickedPos.X && cell.Pos.Y == userInput.ClickedPos.Y)
-                newColor = cell.Type;
+            foreach (var cell in oldState.Cells)
+            {
+                if (cell.Pos.X == userInput.ClickedPos.X && cell.Pos.Y == userInput.ClickedPos.Y)
+                    newColor = cell.Type;
+            }
         }
+
         return BFS(oldState,newColor);
     }
 }

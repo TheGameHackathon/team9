@@ -8,6 +8,7 @@ builder.Services.AddMvc();
 builder.Services.AddScoped<IGameGenerator, GameGenerator>();
 builder.Services.AddSingleton<IGameRepository, GamesRepository>();
 builder.Services.AddScoped<IGameChanger, GameChanger>();
+builder.Services.AddScoped<IAI, AI>();
 
 
 var app = builder.Build();

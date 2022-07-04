@@ -79,6 +79,7 @@ public class MovesController : Controller
         var game = GamesRepository.FloodFillGameDto();
         var newGame = ChangeState(game, userInput);
 
+        newGame.Score++;
         return Ok(newGame);
     }
 }

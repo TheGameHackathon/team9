@@ -26,10 +26,11 @@ public class MovesController : Controller
         if (userInput.ClickedPos != null)
             game.Cells.First(c => c.Type == "color4").Pos = userInput.ClickedPos;
         return Ok(game);*/
-
         var game = gameRepository.FindById(gameId);
         if (game == null)
             return NotFound();
+        if (userInput == null) 
+            return Ok(game);
         var newGame = gameChanger.ChangeState(game, userInput);
 
         newGame.Score++;

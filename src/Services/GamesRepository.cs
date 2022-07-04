@@ -17,15 +17,15 @@ public class GamesRepository
 
         var cells = new List<CellDto>();
         var id = 1;
-        
+
         for (var i = 0; i < width; ++i)
         for (var j = 0; j < height; ++j)
         {
             cells.Add(
-                new CellDto(id.ToString(), 
-                    new VectorDto{X = i, Y = j}, 
-                    $"color{random.Next(colorCount) + 1}", 
-                    "", 
+                new CellDto(id.ToString(),
+                    new VectorDto { X = i, Y = j },
+                    $"color{random.Next(colorCount) + 1}",
+                    "",
                     0));
             id++;
         }

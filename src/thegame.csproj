@@ -5,4 +5,9 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Interfaces\IGame.cs" />
+    <Compile Remove="Models\GameEntity.cs" />
+  </ItemGroup>
+
 </Project>

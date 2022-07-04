@@ -68,8 +68,18 @@ function updateField(game) {
     if (game) {
         scoreElement.innerText = `Your score: ${game.score}`;
         startMessage.innerText = `Your score: ${game.score}. Again?`;
-        videoFrame.src = "https://www.youtube.com/embed/Ry8CDgQoj_o?rel=0";
-        finishVideo.classList.toggle("hidden", !game.isFinished);
+        
+        if (game.height >= 10) {
+            startButton.disabled = true;
+        }
+        if (game.height >= 16) {
+            startButton2.disabled = true;
+        }
+        if (game.height >= 22) {
+            startButton3.disabled = true;
+            videoFrame.src = "https://www.youtube.com/embed/Ry8CDgQoj_o?rel=0";
+            finishVideo.classList.toggle("hidden", !game.isFinished);
+        }
     }
     setTimeout(
         () => {

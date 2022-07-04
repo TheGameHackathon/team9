@@ -80,6 +80,11 @@ public class MovesController : Controller
         var newGame = ChangeState(game, userInput);
 
         newGame.Score++;
+
+        var color = newGame.Cells.First().Type;
+
+        newGame.IsFinished = newGame.Cells.All(cell => cell.Type == color);
+
         return Ok(newGame);
     }
 }

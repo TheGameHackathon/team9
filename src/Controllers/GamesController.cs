@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using thegame.Models;
 using thegame.Services;
 
 namespace thegame.Controllers;

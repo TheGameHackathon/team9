@@ -1,33 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using thegame.Models;
 
-namespace thegame.Services
+namespace thegame.Services;
+
+public class GamesRepository
 {
-    public class GamesRepository : IGamesRepository
+    private static GameDto floodFillCells;
+
+    public static GameDto FloodFillGameDto() => floodFillCells;
+
+    public static GameDto NewFloodFillGameDto(int width, int height, int colorCount)
     {
-        private readonly Dictionary<Guid, GameDto> games = new Dictionary<Guid, GameDto>();
+        var random = new Random();
 
-        public GameDto Insert(GameDto game)
+        var cells = new List<CellDto>();
+        var id = 1;
+
+        for (var i = 0; i < width; ++i)
+        for (var j = 0; j < height; ++j)
         {
-            if (game.Id != Guid.Empty)
-                throw new InvalidOperationException();
-
-            var id = Guid.NewGuid();
-            var gameEntity = Clone(id, game);
-            games[id] = gameEntity;
-            return Clone(id, gameEntity);
+            cells.Add(
+                new CellDto(id.ToString(),
+                    new VectorDto { X = i, Y = j },
+                    $"color{random.Next(colorCount) + 1}",
+                    "",
+                    0));
+            id++;
         }
 
-        public GameDto FindById(Guid id)
-        {
-            return games.TryGetValue(id, out GameDto game) ? Clone(id, game) : null;
-        }
-
-        private GameDto Clone(Guid id, GameDto game)
-        {
-            return new GameDto(game.Cells, game.MonitorKeyboard, game.MonitorMouseClicks, game.Width, game.Height, 
-                id, game.IsFinished, game.Score);
-        }
+        floodFillCells = new GameDto(cells.ToArray(), true, true, width, height, Guid.Empty, false, 0);
+        return floodFillCells;
     }
 }

@@ -78,16 +78,9 @@ public class MovesController : Controller
         return Ok(game);*/
 
         var game = GamesRepository.FloodFillGameDto();
-        
-        if (userInput == null)
-        {
-            return Ok(game);
-        }
-        
         var newGame = ChangeState(game, userInput);
 
         newGame.Score++;
-        
 
         var color = newGame.Cells.First().Type;
 

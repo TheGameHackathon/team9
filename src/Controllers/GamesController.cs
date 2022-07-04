@@ -10,6 +10,6 @@ public class GamesController : Controller
     [HttpPost]
     public IActionResult Index()
     {
-        return Ok(TestData.AGameDto(new VectorDto {X = 1, Y = 1}));
+        return Ok(GamesRepository.NewFloodFillGameDto(10, 10, 4));
     }
 }
